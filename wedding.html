@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wedding Invitation</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&family=Scheherazade+New&display=swap" rel="stylesheet">
+
+<style>
+body {
+    background: #f8f6f2;
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+}
+
+.card {
+    width: 750px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 40px;
+    border: 6px double #caa74a;
+}
+
+.title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 42px;
+    color: #caa74a;
+}
+
+.arabic {
+    font-family: 'Scheherazade New', serif;
+    font-size: 26px;
+    direction: rtl;
+    margin: 20px 0;
+}
+
+.names {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.highlight {
+    color: #caa74a;
+    font-weight: bold;
+}
+
+/* Countdown */
+#countdown {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.time-box {
+    background: #caa74a;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    width: 70px;
+}
+
+/* Buttons */
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.yes { background: #caa74a; color: white; }
+.no { background: #444; color: white; }
+.rsvp { background: #25D366; color: white; }
+
+/* QR Styling */
+.qr-box {
+    margin-top: 30px;
+    display: inline-block;
+    padding: 15px;
+    border: 3px solid #caa74a;
+    border-radius: 15px;
+}
+
+.qr-label {
+    font-size: 14px;
+    color: #caa74a;
+    margin-bottom: 5px;
+}
+
+/* Confetti */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: 0;
+    animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<p><b>In the Name of Allah, the Most Beneficent and Most Merciful</b></p>
+
+<div class="arabic">
+بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+</div>
+
+<h1 class="title">Insha Allah</h1>
+<h2>Nikah & Valima</h2>
+
+<p>We invite you to the wedding of</p>
+
+<div class="names">NAME</div>
+<p>with</p>
+<div class="names">NAME</div>
+
+<p><span class="highlight">Date:</span> DATE</p>
+<p><span class="highlight">Time:</span> TIME</p>
+
+<p class="highlight">Venue:</p>
+<p>ADDRESS</p>
+
+<!-- Countdown -->
+<h3>Countdown ⏳</h3>
+<div id="countdown">
+    <div class="time-box"><span id="days">0</span><br>Days</div>
+    <div class="time-box"><span id="hours">0</span><br>Hours</div>
+    <div class="time-box"><span id="minutes">0</span><br>Minutes</div>
+    <div class="time-box"><span id="seconds">0</span><br>Seconds</div>
+</div>
+
+<h3>Will you attend?</h3>
+
+<button class="yes" onclick="playYes()">Yes 💖</button>
+<button class="no" onclick="playNo()">No 😢</button>
+
+<br>
+
+<button class="rsvp" onclick="sendWhatsApp()">RSVP on WhatsApp 📲</button>
+
+<!-- QR Code -->
+<div class="qr-box">
+    <div class="qr-label">📱 Scan Me</div>
+    <img id="qrcode" width="180">
+</div>
+
+<!-- Audio -->
+<audio id="yesSong">
+    <source src="C:\New folder\Manasakamil - Manavalan Unleashed_Thallumaala_Tovino Thomas_ Khalid Rahman_Ashiq Usman_ Vishnu Vijay (mp3cut.net).mp3" type="audio/mpeg">
+</audio>
+
+<audio id="noSong">
+    <source src="no-song.mp3" type="audio/mpeg">
+</audio>
+
+</div>
+
+<script>
+// Countdown
+var weddingDate = new Date("March 29, 2026 12:15:00").getTime();
+
+setInterval(function() {
+    var now = new Date().getTime();
+    var distance = weddingDate - now;
+
+    document.getElementById("days").innerText = Math.floor(distance / (1000*60*60*24));
+    document.getElementById("hours").innerText = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
+    document.getElementById("minutes").innerText = Math.floor((distance % (1000*60*60))/(1000*60));
+    document.getElementById("seconds").innerText = Math.floor((distance % (1000*60))/1000);
+}, 1000);
+
+// Music + Confetti
+function playYes() {
+    document.getElementById("noSong").pause();
+    document.getElementById("yesSong").play();
+    createConfetti();
+}
+
+function playNo() {
+    document.getElementById("yesSong").pause();
+    document.getElementById("noSong").play();
+}
+
+// WhatsApp RSVP
+function sendWhatsApp() {
+    let phone = "918921423770";
+    let message = "Assalamu Alaikum, I will attend the wedding InshaAllah.";
+    window.open("https://wa.me/" + phone + "?text=" + encodeURIComponent(message));
+}
+
+// QR Code Generator
+var inviteURL = "https://example.com/wedding-invite";
+document.getElementById("qrcode").src =
+"https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=" + encodeURIComponent(inviteURL);
+
+// Confetti
+function createConfetti() {
+    for (let i = 0; i < 50; i++) {
+        let confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.background = ["red","gold","green","blue"][Math.floor(Math.random()*4)];
+        confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 4000);
+    }
+}
+</script>
+
+</body>
+</html>
